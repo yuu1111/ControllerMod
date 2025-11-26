@@ -1,9 +1,14 @@
 # ControllerMod
 
+## Claude向けルール
+
+- **対話言語**: 日本語で対話すること
+- **コードコメント**: 日本語で書くこと
+
 ## プロジェクト概要
 
-Minecraft 1.7.10向けのコントローラー入力MOD。
-Steam Deck対応を視野に入れ、SDL2ベースで実装。
+Minecraft 1.7.10向けのコントローラー入力MOD
+Steam Deck対応を視野に入れ、SDL2ベースで実装
 
 ## 技術スタック
 
@@ -64,8 +69,8 @@ implementation "com.github.electronstudio:sdl2gdx:1.0.5"
 
 ### JNA回避の理由
 
-GTNHのlwjgl3ifyには`UnsafeReflectionRedirector`があり、JNA経由でのSDL2呼び出しが失敗する。
-JNIベースのsdl2gdxを使用することでこの問題を回避。
+GTNHのlwjgl3ifyには`UnsafeReflectionRedirector`があり、JNA経由でのSDL2呼び出しが失敗する
+JNIベースのsdl2gdxを使用することでこの問題を回避
 
 ## 次のステップ
 

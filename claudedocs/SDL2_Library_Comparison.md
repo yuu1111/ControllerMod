@@ -2,7 +2,7 @@
 
 ## 概要
 
-Minecraft 1.7.10 (GTNH環境) 向けコントローラーMOD実装のためのライブラリ比較。
+Minecraft 1.7.10 (GTNH環境) 向けコントローラーMOD実装のためのライブラリ比較
 
 ## 比較表
 
@@ -150,7 +150,7 @@ Minecraft 1.7.10 (GTNH環境) 向けコントローラーMOD実装のための�
 
 ## 結論
 
-**sdl2gdx** を第一候補として実装を進める。
+**sdl2gdx** を第一候補として実装を進める
 
 ```gradle
 dependencies {
@@ -158,4 +158,4 @@ dependencies {
 }
 ```
 
-JNA問題が発生した場合は、LWJGL2 Controllersで基本機能を実装し、振動などは将来対応とする。
+JNA問題が発生した場合は、LWJGL2 Controllersで基本機能を実装し、振動などは将来対応とする
