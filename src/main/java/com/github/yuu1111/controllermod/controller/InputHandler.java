@@ -223,7 +223,7 @@ public class InputHandler {
 
         // Y: インベントリ (押した瞬間のみ)
         if (isButtonJustPressed(BUTTON_Y)) {
-            mc.thePlayer.openGui(null, 0, mc.theWorld, 0, 0, 0);
+            mc.displayGuiScreen(new net.minecraft.client.gui.inventory.GuiInventory(mc.thePlayer));
         }
 
         // L3: ダッシュ
