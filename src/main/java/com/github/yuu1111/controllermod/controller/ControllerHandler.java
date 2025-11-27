@@ -93,6 +93,15 @@ public class ControllerHandler implements ControllerListener {
     }
 
     /**
+     * 入力ハンドラーを取得する
+     *
+     * @return 入力ハンドラーインスタンス
+     */
+    public InputHandler getInputHandler() {
+        return inputHandler;
+    }
+
+    /**
      * {@inheritDoc}
      *
      * <p>

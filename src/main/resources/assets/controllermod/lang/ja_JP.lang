@@ -1,0 +1,13 @@
+# ControllerMod Japanese Localization
+
+# Config Fields
+controllermod.config.deadzone=デッドゾーン
+controllermod.config.deadzone.tooltip=アナログスティックのデッドゾーン (0.0 - 0.5)
+controllermod.config.lookSensitivity=視点感度
+controllermod.config.lookSensitivity.tooltip=右スティックの視点操作感度
+controllermod.config.invertY=Y軸反転
+controllermod.config.invertY.tooltip=視点操作のY軸を反転する
+controllermod.config.triggerThreshold=トリガー閾値
+controllermod.config.triggerThreshold.tooltip=トリガーの反応閾値 (0.1 - 0.9)
+controllermod.config.cursorSpeed=カーソル速度
+controllermod.config.cursorSpeed.tooltip=GUI画面でのバーチャルカーソルの移動速度

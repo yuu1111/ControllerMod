@@ -6,6 +6,7 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.settings.KeyBinding;
 
 import com.github.yuu1111.controllermod.config.ControllerConfig;
+import com.github.yuu1111.controllermod.gui.VirtualCursor;
 
 /**
  * コントローラー入力をMinecraftのアクションにマッピングするクラス
@@ -117,6 +118,9 @@ public class InputHandler {
     /** 前フレームのボタン状態 (JustPressed判定用) */
     private boolean[] prevButtonStates = new boolean[16];
 
+    /** バーチャルカーソル (GUI操作用) */
+    private final VirtualCursor virtualCursor = new VirtualCursor();
+
     /**
      * 軸の値を更新する
      *
@@ -174,11 +178,28 @@ public class InputHandler {
      * </ol>
      *
      * <p>
-     * GUIが開いている場合は全ての入力を解放する
+     * GUIが開いている場合はバーチャルカーソルモードに切り替える
      */
     public void applyMovement() {
         Minecraft mc = Minecraft.getMinecraft();
-        if (mc.thePlayer == null || mc.currentScreen != null) {
+
+        // GUI が開いている場合はバーチャルカーソルで操作
+        if (mc.currentScreen != null) {
+            releaseAllMovement();
+            releaseAllButtons();
+
+            // バーチャルカーソルを更新
+            virtualCursor.update(leftStickX, leftStickY, buttonStates[BUTTON_A], buttonStates[BUTTON_B]);
+
+            // GUI でも一部のボタンは処理する
+            applyGuiButtons(mc);
+
+            // 前フレームのボタン状態を保存
+            System.arraycopy(buttonStates, 0, prevButtonStates, 0, buttonStates.length);
+            return;
+        }
+
+        if (mc.thePlayer == null) {
             releaseAllMovement();
             releaseAllButtons();
             return;
@@ -264,6 +285,35 @@ public class InputHandler {
         // D-Pad 右: チャット画面を開く (T)
         if (isButtonJustPressed(BUTTON_DPAD_RIGHT)) {
             mc.displayGuiScreen(new GuiChat());
+        }
+    }
+
+    /**
+     * GUI画面でのボタン入力を処理する
+     *
+     * <p>
+     * GUI が開いている間も機能するボタン:
+     * <ul>
+     * <li>Start: GUI を閉じる</li>
+     * <li>RB/LB: ホットバー切り替え (インベントリ等で有用)</li>
+     * </ul>
+     *
+     * @param mc Minecraftインスタンス
+     */
+    private void applyGuiButtons(Minecraft mc) {
+        // Start: GUI を閉じる
+        if (isButtonJustPressed(BUTTON_START)) {
+            mc.thePlayer.closeScreen();
+        }
+
+        // RB: 次のホットバースロット
+        if (isButtonJustPressed(BUTTON_RB) && mc.thePlayer != null) {
+            scrollHotbar(mc, 1);
+        }
+
+        // LB: 前のホットバースロット
+        if (isButtonJustPressed(BUTTON_LB) && mc.thePlayer != null) {
+            scrollHotbar(mc, -1);
         }
     }
 
@@ -408,5 +458,14 @@ public class InputHandler {
      */
     public float getLeftStickY() {
         return leftStickY;
+    }
+
+    /**
+     * バーチャルカーソルを取得する
+     *
+     * @return バーチャルカーソルインスタンス
+     */
+    public VirtualCursor getVirtualCursor() {
+        return virtualCursor;
     }
 }

@@ -1,0 +1,13 @@
+# ControllerMod English Localization
+
+# Config Fields
+controllermod.config.deadzone=Deadzone
+controllermod.config.deadzone.tooltip=Deadzone for analog sticks (0.0 - 0.5)
+controllermod.config.lookSensitivity=Look Sensitivity
+controllermod.config.lookSensitivity.tooltip=Sensitivity for right stick look controls
+controllermod.config.invertY=Invert Y Axis
+controllermod.config.invertY.tooltip=Invert Y axis for look controls
+controllermod.config.triggerThreshold=Trigger Threshold
+controllermod.config.triggerThreshold.tooltip=Threshold for trigger activation (0.1 - 0.9)
+controllermod.config.cursorSpeed=Cursor Speed
+controllermod.config.cursorSpeed.tooltip=Virtual cursor speed in GUI menus

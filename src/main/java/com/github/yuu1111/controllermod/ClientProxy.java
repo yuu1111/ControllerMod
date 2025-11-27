@@ -1,7 +1,11 @@
 package com.github.yuu1111.controllermod;
 
+import net.minecraftforge.client.event.GuiScreenEvent;
+import net.minecraftforge.common.MinecraftForge;
+
 import com.github.yuu1111.controllermod.config.ControllerConfig;
 import com.github.yuu1111.controllermod.controller.ControllerHandler;
+import com.github.yuu1111.controllermod.gui.VirtualCursor;
 import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
@@ -37,10 +41,13 @@ public class ClientProxy extends CommonProxy {
         controllerHandler = new ControllerHandler();
         controllerHandler.init();
 
-        // Register tick handler
+        // Register tick handler (FML events)
         FMLCommonHandler.instance()
             .bus()
             .register(this);
+
+        // Register render handler (Forge events)
+        MinecraftForge.EVENT_BUS.register(this);
     }
 
     @Override
@@ -52,6 +59,22 @@ public class ClientProxy extends CommonProxy {
     public void onClientTick(TickEvent.ClientTickEvent event) {
         if (event.phase == TickEvent.Phase.START && controllerHandler != null) {
             controllerHandler.update();
+        }
+    }
+
+    /**
+     * GUI描画後にバーチャルカーソルを描画する
+     *
+     * @param event GUI描画イベント
+     */
+    @SubscribeEvent
+    public void onDrawScreen(GuiScreenEvent.DrawScreenEvent.Post event) {
+        if (controllerHandler != null && controllerHandler.getInputHandler() != null) {
+            VirtualCursor cursor = controllerHandler.getInputHandler()
+                .getVirtualCursor();
+            if (cursor != null && cursor.isActive()) {
+                cursor.render();
+            }
         }
     }
 
