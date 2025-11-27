@@ -1,6 +1,9 @@
 package com.github.yuu1111.controllermod;
 
+import com.github.yuu1111.controllermod.config.ControllerConfig;
 import com.github.yuu1111.controllermod.controller.ControllerHandler;
+import com.gtnewhorizon.gtnhlib.config.ConfigException;
+import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -16,6 +19,14 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent event) {
         super.preInit(event);
+
+        // Config登録
+        try {
+            ConfigurationManager.registerConfig(ControllerConfig.class);
+            ControllerMod.LOG.info("Config registered successfully");
+        } catch (ConfigException e) {
+            ControllerMod.LOG.error("Failed to register config", e);
+        }
     }
 
     @Override

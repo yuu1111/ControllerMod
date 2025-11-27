@@ -52,11 +52,9 @@ Minecraft Bedrock Edition の標準マッピングに準拠
 | ボタン | SDL2 コード | アクション | Minecraft キー |
 |--------|-----------|----------|---------------|
 | A | 0 | ジャンプ | Space |
-| B | 1 | スニーク (トグル) | Shift |
-| X | 2 | クラフト※ | - |
+| B | 1 | スニーク (ホールド) | Shift |
+| X | 2 | 設定GUI | - |
 | Y | 3 | インベントリ | E |
-
-※ クラフトはGUIがないため、1.7.10では別機能に割り当て可能
 
 ### トリガー・バンパー
 
@@ -142,6 +140,14 @@ public static final int AXIS_TRIGGER_RIGHT = 5;
 - [x] R3: 視点切替
 - [x] 十字キー: 各種機能 (上=視点切替, 下=ドロップ, 右=チャット)
 - [x] Back: プレイヤーリスト
+
+### Phase 4 (設定GUI) ✅
+- [x] X: 設定GUI (GTNHLib SimpleGuiConfig)
+- [x] デッドゾーン設定 (ControllerConfig.deadzone)
+- [x] 感度設定 (ControllerConfig.lookSensitivity)
+- [x] Y軸反転設定 (ControllerConfig.invertY)
+- [x] トリガー閾値設定 (ControllerConfig.triggerThreshold)
+- [x] 設定の永続化 (GTNHLib @Config)
 
 ## ControllerMod 実装方針
 

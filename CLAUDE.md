@@ -24,17 +24,32 @@ com.github.yuu1111.controllermod
 ├── ControllerMod.java           # メインModクラス
 ├── ClientProxy.java             # クライアント側処理 (コントローラー初期化)
 ├── CommonProxy.java             # 共通処理
-└── controller/
-    └── ControllerHandler.java   # SDL2コントローラー管理
+├── config/
+│   └── ControllerConfig.java    # GTNHLib @Config設定クラス
+├── controller/
+│   ├── ControllerHandler.java   # SDL2コントローラー管理
+│   └── InputHandler.java        # ボタン→アクションマッピング
+└── gui/
+    └── GuiFactory.java          # GTNHLib SimpleGuiFactory
 ```
 
 ## 現在の実装状態
 
-### 完了
-- [x] sdl2gdx統合 (JitPack経由)
-- [x] コントローラー検出
-- [x] 接続/切断ログ出力
-- [x] ボタン/軸入力のログ出力
+### Phase 1-3: 基本操作 ✅
+- [x] 左スティック: 移動 (WASD)
+- [x] 右スティック: 視点操作
+- [x] A/B/Y: ジャンプ/スニーク/インベントリ
+- [x] RT/LT: 攻撃/使用
+- [x] RB/LB: ホットバー切り替え
+- [x] Start: ポーズ
+- [x] D-Pad: 各種機能
+
+### Phase 4: 設定GUI ✅
+- [x] X: 設定GUI (GTNHLib SimpleGuiConfig)
+- [x] デッドゾーン設定
+- [x] 感度設定
+- [x] Y軸反転設定
+- [x] 設定の永続化 (@Config)
 
 ### 動作確認済み
 - Xbox One Elite Controller (XInput)
@@ -74,20 +89,15 @@ JNIベースのsdl2gdxを使用することでこの問題を回避
 
 ## 次のステップ
 
-1. **入力ハンドラー実装**
-   - ボタン→キーバインドマッピング
-   - スティック→移動/視点操作
-   - トリガー→攻撃/使用
+1. **Phase 5: GUI操作対応**
+   - バーチャルカーソル (左スティック)
+   - インベントリ操作 (A=決定, B=キャンセル)
+   - D-Padナビゲーション
 
-2. **GUI操作対応**
-   - カーソル移動
-   - インベントリ操作
-   - メニュー操作
-
-3. **設定画面**
-   - キーマッピングカスタマイズ
-   - デッドゾーン設定
-   - 感度設定
+2. **将来の拡張**
+   - ボタンマッピングカスタマイズ
+   - 複数コントローラー対応
+   - 振動フィードバック
 
 ## ビルドコマンド
 
@@ -105,6 +115,7 @@ JNIベースのsdl2gdxを使用することでこの問題を回避
 ## 関連リソース
 
 - [GTNH ExampleMod](https://github.com/GTNewHorizons/ExampleMod1.7.10)
+- [GTNHLib](https://github.com/GTNewHorizons/GTNHLib) - Config GUI自動生成
 - [sdl2gdx](https://github.com/electronstudio/sdl2gdx)
 - [SDL2 GameController API](https://wiki.libsdl.org/SDL2/CategoryGameController)
-- [ライブラリ比較](claudedocs/SDL2_Library_Comparison.md)
+- [ボタンマッピング詳細](claudedocs/ControllerMapping.md)

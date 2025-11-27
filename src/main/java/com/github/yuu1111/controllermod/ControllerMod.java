@@ -13,7 +13,8 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
     modid = ControllerMod.MODID,
     version = Tags.VERSION,
     name = "ControllerMod",
-    acceptedMinecraftVersions = "[1.7.10]")
+    acceptedMinecraftVersions = "[1.7.10]",
+    guiFactory = "com.github.yuu1111.controllermod.gui.GuiFactory")
 public class ControllerMod {
 
     public static final String MODID = "controllermod";

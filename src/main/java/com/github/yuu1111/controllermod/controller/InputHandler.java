@@ -5,6 +5,8 @@ import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.settings.KeyBinding;
 
+import com.github.yuu1111.controllermod.config.ControllerConfig;
+
 /**
  * コントローラー入力をMinecraftのアクションにマッピングするクラス
  *
@@ -29,17 +31,6 @@ import net.minecraft.client.settings.KeyBinding;
  * @see <a href="https://wiki.libsdl.org/SDL2/SDL_GameControllerButton">SDL2 GameControllerButton</a>
  */
 public class InputHandler {
-
-    // ===== 定数 =====
-
-    /** スティックのデッドゾーン (0.0 〜 1.0) */
-    private static final float DEADZONE = 0.25f;
-
-    /** 視点操作の感度 */
-    private static final float LOOK_SENSITIVITY = 4.0f;
-
-    /** トリガーの閾値 (この値を超えると入力として認識) */
-    private static final float TRIGGER_THRESHOLD = 0.5f;
 
     // ===== SDL2 軸インデックス =====
 
@@ -226,14 +217,16 @@ public class InputHandler {
             mc.displayGuiScreen(new net.minecraft.client.gui.inventory.GuiInventory(mc.thePlayer));
         }
 
+        // X: (将来の拡張用に予約)
+
         // L3: ダッシュ
         setKeyState(mc.gameSettings.keyBindSprint, buttonStates[BUTTON_L3]);
 
         // RT: 攻撃/破壊
-        setKeyState(mc.gameSettings.keyBindAttack, triggerRight > TRIGGER_THRESHOLD);
+        setKeyState(mc.gameSettings.keyBindAttack, triggerRight > ControllerConfig.triggerThreshold);
 
         // LT: 使用/設置
-        setKeyState(mc.gameSettings.keyBindUseItem, triggerLeft > TRIGGER_THRESHOLD);
+        setKeyState(mc.gameSettings.keyBindUseItem, triggerLeft > ControllerConfig.triggerThreshold);
 
         // RB: 次のホットバースロット
         if (isButtonJustPressed(BUTTON_RB)) {
@@ -340,14 +333,21 @@ public class InputHandler {
             return;
         }
 
+        float sensitivity = ControllerConfig.lookSensitivity;
+
         // X軸 → Yaw (左右回転)
         if (rightStickX != 0) {
-            mc.thePlayer.rotationYaw += rightStickX * LOOK_SENSITIVITY;
+            mc.thePlayer.rotationYaw += rightStickX * sensitivity;
         }
 
         // Y軸 → Pitch (上下回転)
         if (rightStickY != 0) {
-            mc.thePlayer.rotationPitch += rightStickY * LOOK_SENSITIVITY;
+            float pitchDelta = rightStickY * sensitivity;
+            // Y軸反転設定
+            if (ControllerConfig.invertY) {
+                pitchDelta = -pitchDelta;
+            }
+            mc.thePlayer.rotationPitch += pitchDelta;
             // -90° 〜 90° に制限
             mc.thePlayer.rotationPitch = Math.max(-90.0f, Math.min(90.0f, mc.thePlayer.rotationPitch));
         }
@@ -384,11 +384,12 @@ public class InputHandler {
      * @return デッドゾーン適用後の値
      */
     private float applyDeadzone(float value) {
-        if (Math.abs(value) < DEADZONE) {
+        float deadzone = ControllerConfig.deadzone;
+        if (Math.abs(value) < deadzone) {
             return 0;
         }
         float sign = Math.signum(value);
-        return sign * (Math.abs(value) - DEADZONE) / (1 - DEADZONE);
+        return sign * (Math.abs(value) - deadzone) / (1 - deadzone);
     }
 
     /**
