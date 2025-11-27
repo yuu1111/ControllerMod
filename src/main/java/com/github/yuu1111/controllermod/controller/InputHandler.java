@@ -7,6 +7,7 @@ import net.minecraft.client.settings.KeyBinding;
 
 import com.github.yuu1111.controllermod.config.ControllerConfig;
 import com.github.yuu1111.controllermod.gui.VirtualCursor;
+import com.github.yuu1111.controllermod.gui.VirtualCursorManager;
 
 /**
  * コントローラー入力をMinecraftのアクションにマッピングするクラス
@@ -119,7 +120,19 @@ public class InputHandler {
     private boolean[] prevButtonStates = new boolean[16];
 
     /** バーチャルカーソル (GUI操作用) */
-    private final VirtualCursor virtualCursor = new VirtualCursor();
+    private final VirtualCursor virtualCursor;
+
+    /**
+     * コンストラクタ
+     *
+     * <p>
+     * バーチャルカーソルを初期化し、VirtualCursorManagerに登録する。
+     */
+    public InputHandler() {
+        virtualCursor = new VirtualCursor();
+        // MixinからアクセスできるようにVirtualCursorManagerに登録
+        VirtualCursorManager.setInstance(virtualCursor);
+    }
 
     /**
      * 軸の値を更新する

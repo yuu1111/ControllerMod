@@ -13,6 +13,8 @@ import org.lwjgl.opengl.GL11;
 import com.github.yuu1111.controllermod.ControllerMod;
 import com.github.yuu1111.controllermod.config.ControllerConfig;
 
+import cpw.mods.fml.relauncher.ReflectionHelper;
+
 /**
  * コントローラー用バーチャルカーソル
  *
@@ -22,6 +24,7 @@ import com.github.yuu1111.controllermod.config.ControllerConfig;
  *
  * <p>
  * クリック操作はreflectionでGuiScreenのprotectedメソッドを直接呼び出すことで実現。
+ * FMLのReflectionHelperを使用して難読化環境でも動作する。
  *
  * <ul>
  * <li>左スティック: カーソル移動</li>
@@ -70,23 +73,44 @@ public class VirtualCursor {
      * コンストラクタ
      *
      * <p>
-     * GuiScreenのprotectedメソッドをreflectionで取得する
+     * GuiScreenのprotectedメソッドをreflectionで取得する。
+     * FMLのReflectionHelperを使用して難読化環境でも動作するようにする。
      */
     public VirtualCursor() {
         try {
             // GuiScreen.mouseClicked(int x, int y, int button)
-            mouseClickedMethod = GuiScreen.class.getDeclaredMethod("mouseClicked", int.class, int.class, int.class);
-            mouseClickedMethod.setAccessible(true);
+            // MCP名: mouseClicked, SRG名: func_73864_a
+            mouseClickedMethod = ReflectionHelper.findMethod(
+                GuiScreen.class,
+                null,
+                new String[] { "mouseClicked", "func_73864_a" },
+                int.class,
+                int.class,
+                int.class);
 
             // GuiScreen.mouseReleased(int x, int y, int button)
-            mouseReleasedMethod = GuiScreen.class.getDeclaredMethod("mouseReleased", int.class, int.class, int.class);
-            mouseReleasedMethod.setAccessible(true);
+            // MCP名: mouseReleased, SRG名: func_146286_b
+            mouseReleasedMethod = ReflectionHelper.findMethod(
+                GuiScreen.class,
+                null,
+                new String[] { "mouseReleased", "func_146286_b" },
+                int.class,
+                int.class,
+                int.class);
 
             // GuiScreen.mouseClickMove(int x, int y, int button, long timeSinceLastClick)
-            mouseClickMoveMethod = GuiScreen.class
-                .getDeclaredMethod("mouseClickMove", int.class, int.class, int.class, long.class);
-            mouseClickMoveMethod.setAccessible(true);
-        } catch (NoSuchMethodException e) {
+            // MCP名: mouseClickMove, SRG名: func_146273_a
+            mouseClickMoveMethod = ReflectionHelper.findMethod(
+                GuiScreen.class,
+                null,
+                new String[] { "mouseClickMove", "func_146273_a" },
+                int.class,
+                int.class,
+                int.class,
+                long.class);
+
+            ControllerMod.LOG.info("VirtualCursor: GuiScreen methods found via reflection");
+        } catch (Exception e) {
             ControllerMod.LOG.error("Failed to get GuiScreen methods via reflection", e);
         }
     }
@@ -138,7 +162,7 @@ public class VirtualCursor {
         cursorX = Math.max(0, Math.min(screenWidth - 1, cursorX));
         cursorY = Math.max(0, Math.min(screenHeight - 1, cursorY));
 
-        // ボタン処理 (実際のマウスカーソルは動かさず、reflectionで直接GUI操作)
+        // ボタン処理 (reflectionでクリックを発生させる)
         handleButtons(currentScreen, buttonA, buttonB);
 
         // 前フレームの状態を保存
@@ -163,7 +187,8 @@ public class VirtualCursor {
      * ボタン入力を処理する
      *
      * <p>
-     * 実際のマウスカーソルは動かさず、reflectionでGuiScreenのメソッドを直接呼び出す
+     * reflectionでGuiScreenのメソッドを直接呼び出す。
+     * 実際のマウスカーソルは一切動かさない。
      */
     private void handleButtons(GuiScreen screen, boolean buttonA, boolean buttonB) {
         int x = (int) cursorX;
@@ -204,12 +229,13 @@ public class VirtualCursor {
      */
     private void simulateMouseClick(GuiScreen screen, int x, int y, int button) {
         if (mouseClickedMethod == null) {
+            ControllerMod.LOG.warn("mouseClickedMethod is null");
             return;
         }
         try {
             mouseClickedMethod.invoke(screen, x, y, button);
         } catch (Exception e) {
-            ControllerMod.LOG.error("Failed to simulate mouse click", e);
+            ControllerMod.LOG.debug("Failed to simulate mouse click: {}", e.getMessage());
         }
     }
 
@@ -223,7 +249,7 @@ public class VirtualCursor {
         try {
             mouseReleasedMethod.invoke(screen, x, y, button);
         } catch (Exception e) {
-            ControllerMod.LOG.error("Failed to simulate mouse release", e);
+            ControllerMod.LOG.debug("Failed to simulate mouse release: {}", e.getMessage());
         }
     }
 
@@ -239,6 +265,16 @@ public class VirtualCursor {
         } catch (Exception e) {
             // ドラッグエラーは頻繁に発生する可能性があるのでログは出さない
         }
+    }
+
+    /**
+     * マウスボタンが押されているかどうかを返す
+     *
+     * @param button マウスボタン (0=左, 1=右)
+     * @return 押されている場合は {@code true}
+     */
+    public boolean isMouseButtonDown(int button) {
+        return mouseButtonHeld && heldMouseButton == button;
     }
 
     /**
@@ -258,7 +294,7 @@ public class VirtualCursor {
         }
 
         GL11.glPushMatrix();
-        GL11.glTranslatef(cursorX, cursorY, 0);
+        GL11.glTranslatef(cursorX, cursorY, 300); // z=300 でGUIの上に描画
 
         // カーソルの色 (白、押下時は黄色)
         float r = 1.0f;

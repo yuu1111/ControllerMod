@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8.5-GTNH",
+  "package": "com.github.yuu1111.controllermod.mixins",
+  "refmap": "mixins.controllermod.refmap.json",
+  "target": "@env(DEFAULT)",
+  "compatibilityLevel": "JAVA_8",
+  "mixins": [
+    "MixinGuiScreen",
+    "MixinMouse"
+  ]
+}
