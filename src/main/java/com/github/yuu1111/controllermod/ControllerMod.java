@@ -2,6 +2,7 @@ package com.github.yuu1111.controllermod;
 
 import static com.github.yuu1111.controllermod.constants.Constants.MOD_ID;
 import static com.github.yuu1111.controllermod.constants.Constants.MOD_NAME;
+import static com.github.yuu1111.controllermod.constants.Constants.MOD_VERSION;
 
 import com.github.yuu1111.controllermod.proxy.CommonProxy;
 import org.apache.logging.log4j.LogManager;
@@ -15,7 +16,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(
     modid = MOD_ID,
-    version = Tags.VERSION,
+    version = MOD_VERSION,
     name = MOD_NAME,
     acceptedMinecraftVersions = "[1.7.10]",
     guiFactory = "com.github.yuu1111.controllermod.gui.GuiFactory")

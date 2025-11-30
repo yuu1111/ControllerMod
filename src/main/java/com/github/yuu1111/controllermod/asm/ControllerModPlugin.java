@@ -1,5 +1,7 @@
 package com.github.yuu1111.controllermod.asm;
 
+import static com.github.yuu1111.controllermod.constants.Constants.MC_VERSION;
+
 import java.util.Map;
 
 import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
@@ -13,7 +15,7 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
  *
  * @author yuu1111
  */
-@IFMLLoadingPlugin.MCVersion("1.7.10")
+@IFMLLoadingPlugin.MCVersion(MC_VERSION)
 @IFMLLoadingPlugin.TransformerExclusions({ "com.github.yuu1111.controllermod.asm" })
 @IFMLLoadingPlugin.SortingIndex(1001)
 public class ControllerModPlugin implements IFMLLoadingPlugin {
