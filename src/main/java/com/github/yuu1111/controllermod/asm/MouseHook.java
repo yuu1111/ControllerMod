@@ -2,7 +2,7 @@ package com.github.yuu1111.controllermod.asm;
 
 import org.lwjgl.input.Mouse;
 
-import com.github.yuu1111.controllermod.gui.VirtualCursorManager;
+import com.github.yuu1111.controllermod.gui.cursor.VirtualCursorManager;
 
 /**
  * Mouse API のフッククラス (ASM置換先)

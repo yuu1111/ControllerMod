@@ -1,4 +1,4 @@
-package com.github.yuu1111.controllermod.gui;
+package com.github.yuu1111.controllermod.gui.cursor;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;

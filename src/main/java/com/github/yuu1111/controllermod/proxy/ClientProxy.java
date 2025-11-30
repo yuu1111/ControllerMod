@@ -7,7 +7,7 @@ import com.github.yuu1111.controllermod.ControllerMod;
 import com.github.yuu1111.controllermod.config.BindingConfig;
 import com.github.yuu1111.controllermod.config.ControllerConfig;
 import com.github.yuu1111.controllermod.controller.ControllerHandler;
-import com.github.yuu1111.controllermod.gui.VirtualCursor;
+import com.github.yuu1111.controllermod.gui.cursor.VirtualCursor;
 import com.gtnewhorizon.gtnhlib.config.ConfigException;
 import com.gtnewhorizon.gtnhlib.config.ConfigurationManager;
 

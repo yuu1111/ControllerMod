@@ -1,6 +1,6 @@
 package com.github.yuu1111.controllermod.asm;
 
-import static com.github.yuu1111.controllermod.constants.Constants.MC_VERSION;
+import static com.github.yuu1111.controllermod.constants.Reference.MC_VERSION;
 
 import java.util.Map;
 

@@ -6,9 +6,9 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.settings.KeyBinding;
 
 import com.github.yuu1111.controllermod.config.ControllerConfig;
-import com.github.yuu1111.controllermod.constants.SDL2Constants;
-import com.github.yuu1111.controllermod.gui.VirtualCursor;
-import com.github.yuu1111.controllermod.gui.VirtualCursorManager;
+import com.github.yuu1111.controllermod.constants.SDL2;
+import com.github.yuu1111.controllermod.gui.cursor.VirtualCursor;
+import com.github.yuu1111.controllermod.gui.cursor.VirtualCursorManager;
 import com.github.yuu1111.controllermod.input.ControllerBinding;
 import com.github.yuu1111.controllermod.input.ControllerBindings;
 
@@ -61,27 +61,27 @@ public class InputHandler {
      * スティック軸にはデッドゾーン処理を適用する。
      * トリガー軸はそのまま保存する。
      *
-     * @param axisCode SDL2軸コード ({@link SDL2Constants#AXIS_LEFT_X} など)
+     * @param axisCode SDL2軸コード ({@link SDL2#AXIS_LEFT_X} など)
      * @param value    軸の値 (-1.0 〜 1.0)
      */
     public void updateAxis(int axisCode, float value) {
         switch (axisCode) {
-            case SDL2Constants.AXIS_LEFT_X:
+            case SDL2.AXIS_LEFT_X:
                 leftStickX = applyDeadzone(value);
                 break;
-            case SDL2Constants.AXIS_LEFT_Y:
+            case SDL2.AXIS_LEFT_Y:
                 leftStickY = applyDeadzone(value);
                 break;
-            case SDL2Constants.AXIS_RIGHT_X:
+            case SDL2.AXIS_RIGHT_X:
                 rightStickX = applyDeadzone(value);
                 break;
-            case SDL2Constants.AXIS_RIGHT_Y:
+            case SDL2.AXIS_RIGHT_Y:
                 rightStickY = applyDeadzone(value);
                 break;
-            case SDL2Constants.AXIS_TRIGGER_LEFT:
+            case SDL2.AXIS_TRIGGER_LEFT:
                 triggerLeft = value;
                 break;
-            case SDL2Constants.AXIS_TRIGGER_RIGHT:
+            case SDL2.AXIS_TRIGGER_RIGHT:
                 triggerRight = value;
                 break;
         }
@@ -167,10 +167,10 @@ public class InputHandler {
         }
         int button = binding.getButton();
         // トリガーの場合
-        if (button == SDL2Constants.TRIGGER_LEFT) {
+        if (button == SDL2.TRIGGER_LEFT) {
             return triggerLeft > ControllerConfig.triggerThreshold;
         }
-        if (button == SDL2Constants.TRIGGER_RIGHT) {
+        if (button == SDL2.TRIGGER_RIGHT) {
             return triggerRight > ControllerConfig.triggerThreshold;
         }
         // 通常ボタン
@@ -189,11 +189,11 @@ public class InputHandler {
         }
         int button = binding.getButton();
         // トリガーの場合
-        if (button == SDL2Constants.TRIGGER_LEFT) {
+        if (button == SDL2.TRIGGER_LEFT) {
             // トリガーのJustPressedは非対応 (ホールドのみ)
             return false;
         }
-        if (button == SDL2Constants.TRIGGER_RIGHT) {
+        if (button == SDL2.TRIGGER_RIGHT) {
             return false;
         }
         // 通常ボタン

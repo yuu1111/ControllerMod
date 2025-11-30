@@ -1,7 +1,6 @@
 package com.github.yuu1111.controllermod.config;
 
-import static com.github.yuu1111.controllermod.constants.Constants.MOD_ID;
-
+import com.github.yuu1111.controllermod.constants.Reference;
 import com.gtnewhorizon.gtnhlib.config.Config;
 
 /**
@@ -11,7 +10,7 @@ import com.gtnewhorizon.gtnhlib.config.Config;
  * GTNHLibの@Configアノテーションを使用して、設定の定義と
  * GUI自動生成を行う。設定値はInputHandlerから参照される。
  */
-@Config(modid = MOD_ID, category = "controller")
+@Config(modid = Reference.MOD_ID, category = "controller")
 public class ControllerConfig {
 
     /**

@@ -4,10 +4,14 @@
 
 - **対話言語**: 日本語で対話すること
 - **コードコメント**: 日本語で書くこと
+- **デコンパイルソース**: build/rfg/minecraft-src/ を削除・クリーンアップしないこと
+
+## JavaDoc規約
+
 - **JavaDoc規約**:
   - 句点「。」は使用しない (文末は句点なしで終わる)
   - 括弧は半角「()」を使用する (全角「（）」は使わない)
-- **デコンパイルソース**: build/rfg/minecraft-src/ を削除・クリーンアップしないこと
+  - 日本語で書くこと
 
 ## プロジェクト概要
 
@@ -36,27 +40,6 @@ com.github.yuu1111.controllermod
 └── gui/
     └── GuiFactory.java          # GTNHLib SimpleGuiFactory
 ```
-
-## 現在の実装状態
-
-### Phase 1-3: 基本操作 ✅
-- [x] 左スティック: 移動 (WASD)
-- [x] 右スティック: 視点操作
-- [x] A/B/Y: ジャンプ/スニーク/インベントリ
-- [x] RT/LT: 攻撃/使用
-- [x] RB/LB: ホットバー切り替え
-- [x] Start: ポーズ
-- [x] D-Pad: 各種機能
-
-### Phase 4: 設定GUI ✅
-- [x] X: 設定GUI (GTNHLib SimpleGuiConfig)
-- [x] デッドゾーン設定
-- [x] 感度設定
-- [x] Y軸反転設定
-- [x] 設定の永続化 (@Config)
-
-### 動作確認済み
-- Xbox One Elite Controller (XInput)
 
 ## SDL2実装
 
@@ -90,18 +73,6 @@ implementation "com.github.electronstudio:sdl2gdx:1.0.5"
 
 GTNHのlwjgl3ifyには`UnsafeReflectionRedirector`があり、JNA経由でのSDL2呼び出しが失敗する
 JNIベースのsdl2gdxを使用することでこの問題を回避
-
-## 次のステップ
-
-1. **Phase 5: GUI操作対応**
-   - バーチャルカーソル (左スティック)
-   - インベントリ操作 (A=決定, B=キャンセル)
-   - D-Padナビゲーション
-
-2. **将来の拡張**
-   - ボタンマッピングカスタマイズ
-   - 複数コントローラー対応
-   - 振動フィードバック
 
 ## ビルドコマンド
 

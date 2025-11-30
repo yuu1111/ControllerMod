@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.github.yuu1111.controllermod.ControllerMod;
+import com.github.yuu1111.controllermod.constants.Reference;
 import com.github.yuu1111.controllermod.input.ControllerBinding;
 import com.github.yuu1111.controllermod.input.ControllerBindings;
 import com.google.gson.Gson;
@@ -22,9 +23,6 @@ import com.google.gson.GsonBuilder;
  * 
  */
 public final class BindingConfig {
-
-    /** 設定ファイル名 */
-    private static final String CONFIG_FILE = "controllermod_bindings.json";
 
     /** Gson インスタンス */
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting()
@@ -43,7 +41,7 @@ public final class BindingConfig {
      * @param configDir Minecraftの設定ディレクトリ
      */
     public static void init(File configDir) {
-        configFile = new File(configDir, CONFIG_FILE);
+        configFile = new File(configDir, Reference.CONFIG_FILE_BINDINGS);
         load();
     }
 

@@ -1,4 +1,4 @@
-package com.github.yuu1111.controllermod.gui;
+package com.github.yuu1111.controllermod.gui.config;
 
 import net.minecraft.client.gui.GuiScreen;
 

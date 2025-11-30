@@ -1,13 +1,11 @@
 package com.github.yuu1111.controllermod.input;
 
-import static com.github.yuu1111.controllermod.constants.SDL2Constants.*;
+import static com.github.yuu1111.controllermod.constants.SDL2.*;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
-import com.github.yuu1111.controllermod.constants.SDL2Constants;
 
 /**
  * コントローラーバインドのレジストリ
@@ -16,7 +14,7 @@ import com.github.yuu1111.controllermod.constants.SDL2Constants;
  * 全てのバインド可能なアクションを管理する。
  * カテゴリ別にバインドを整理し、設定の保存/読み込みをサポートする。
  * 
- * @see SDL2Constants
+ * @see SDL2
  */
 public final class ControllerBindings {
 

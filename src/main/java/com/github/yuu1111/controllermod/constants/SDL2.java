@@ -9,9 +9,9 @@ package com.github.yuu1111.controllermod.constants;
  *
  * @see <a href="https://wiki.libsdl.org/SDL2/CategoryGameController">SDL2 GameController API</a>
  */
-public final class SDL2Constants {
+public final class SDL2 {
 
-    private SDL2Constants() {
+    private SDL2() {
         // ユーティリティクラス
     }
 
