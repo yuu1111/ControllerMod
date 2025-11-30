@@ -9,8 +9,8 @@ import com.github.yuu1111.controllermod.config.ControllerConfig;
 import com.github.yuu1111.controllermod.constants.SDL2;
 import com.github.yuu1111.controllermod.gui.cursor.VirtualCursor;
 import com.github.yuu1111.controllermod.gui.cursor.VirtualCursorManager;
-import com.github.yuu1111.controllermod.input.ControllerBinding;
-import com.github.yuu1111.controllermod.input.ControllerBindings;
+import com.github.yuu1111.controllermod.input.Keybind;
+import com.github.yuu1111.controllermod.input.KeybindRegistry;
 
 /**
  * コントローラー入力をMinecraftのアクションにマッピングするクラス
@@ -20,10 +20,10 @@ import com.github.yuu1111.controllermod.input.ControllerBindings;
  * プレイヤー操作に変換する。デッドゾーン処理や感度調整も行う。
  *
  * <p>
- * ボタン/軸定数はControllerBindingsで定義。
+ * ボタン/軸定数はKeybindRegistryで定義。
  *
  * @see ControllerHandler
- * @see ControllerBindings
+ * @see KeybindRegistry
  */
 public class InputHandler {
 
@@ -125,8 +125,8 @@ public class InputHandler {
             virtualCursor.update(
                 leftStickX,
                 leftStickY,
-                isBindingPressed(ControllerBindings.GUI_SELECT),
-                isBindingPressed(ControllerBindings.GUI_BACK));
+                isBindingPressed(KeybindRegistry.GUI_SELECT),
+                isBindingPressed(KeybindRegistry.GUI_BACK));
 
             // GUI でも一部のボタンは処理する
             applyGuiButtons(mc);
@@ -161,7 +161,7 @@ public class InputHandler {
     /**
      * バインドが押されているかチェック
      */
-    private boolean isBindingPressed(ControllerBinding binding) {
+    private boolean isBindingPressed(Keybind binding) {
         if (binding.isUnbound()) {
             return false;
         }
@@ -183,7 +183,7 @@ public class InputHandler {
     /**
      * バインドが今フレームで押されたか (JustPressed)
      */
-    private boolean isBindingJustPressed(ControllerBinding binding) {
+    private boolean isBindingJustPressed(Keybind binding) {
         if (binding.isUnbound()) {
             return false;
         }
@@ -210,53 +210,53 @@ public class InputHandler {
      */
     private void applyButtons(Minecraft mc) {
         // ジャンプ
-        setKeyState(mc.gameSettings.keyBindJump, isBindingPressed(ControllerBindings.JUMP));
+        setKeyState(mc.gameSettings.keyBindJump, isBindingPressed(KeybindRegistry.JUMP));
 
         // スニーク (ホールド)
-        setKeyState(mc.gameSettings.keyBindSneak, isBindingPressed(ControllerBindings.SNEAK));
+        setKeyState(mc.gameSettings.keyBindSneak, isBindingPressed(KeybindRegistry.SNEAK));
 
         // インベントリ (押した瞬間のみ)
-        if (isBindingJustPressed(ControllerBindings.INVENTORY)) {
+        if (isBindingJustPressed(KeybindRegistry.INVENTORY)) {
             mc.displayGuiScreen(new net.minecraft.client.gui.inventory.GuiInventory(mc.thePlayer));
         }
 
         // ダッシュ
-        setKeyState(mc.gameSettings.keyBindSprint, isBindingPressed(ControllerBindings.SPRINT));
+        setKeyState(mc.gameSettings.keyBindSprint, isBindingPressed(KeybindRegistry.SPRINT));
 
         // 攻撃/破壊
-        setKeyState(mc.gameSettings.keyBindAttack, isBindingPressed(ControllerBindings.ATTACK));
+        setKeyState(mc.gameSettings.keyBindAttack, isBindingPressed(KeybindRegistry.ATTACK));
 
         // 使用/設置
-        setKeyState(mc.gameSettings.keyBindUseItem, isBindingPressed(ControllerBindings.USE_ITEM));
+        setKeyState(mc.gameSettings.keyBindUseItem, isBindingPressed(KeybindRegistry.USE_ITEM));
 
         // 次のホットバースロット
-        if (isBindingJustPressed(ControllerBindings.HOTBAR_NEXT)) {
+        if (isBindingJustPressed(KeybindRegistry.HOTBAR_NEXT)) {
             scrollHotbar(mc, 1);
         }
 
         // 前のホットバースロット
-        if (isBindingJustPressed(ControllerBindings.HOTBAR_PREV)) {
+        if (isBindingJustPressed(KeybindRegistry.HOTBAR_PREV)) {
             scrollHotbar(mc, -1);
         }
 
         // ポーズメニュー
-        if (isBindingJustPressed(ControllerBindings.PAUSE)) {
+        if (isBindingJustPressed(KeybindRegistry.PAUSE)) {
             mc.displayGuiScreen(new GuiIngameMenu());
         }
 
         // 視点切替
-        if (isBindingJustPressed(ControllerBindings.TOGGLE_PERSPECTIVE)) {
+        if (isBindingJustPressed(KeybindRegistry.TOGGLE_PERSPECTIVE)) {
             toggleViewPerspective(mc);
         }
 
         // プレイヤーリスト (Tabホールド)
-        setKeyState(mc.gameSettings.keyBindPlayerList, isBindingPressed(ControllerBindings.PLAYER_LIST));
+        setKeyState(mc.gameSettings.keyBindPlayerList, isBindingPressed(KeybindRegistry.PLAYER_LIST));
 
         // アイテムドロップ
-        setKeyState(mc.gameSettings.keyBindDrop, isBindingPressed(ControllerBindings.DROP_ITEM));
+        setKeyState(mc.gameSettings.keyBindDrop, isBindingPressed(KeybindRegistry.DROP_ITEM));
 
         // チャット画面を開く
-        if (isBindingJustPressed(ControllerBindings.OPEN_CHAT)) {
+        if (isBindingJustPressed(KeybindRegistry.OPEN_CHAT)) {
             mc.displayGuiScreen(new GuiChat());
         }
     }
@@ -268,15 +268,15 @@ public class InputHandler {
      */
     private void applyGuiButtons(Minecraft mc) {
         // ポーズ: GUI を閉じる
-        if (isBindingJustPressed(ControllerBindings.PAUSE)) {
+        if (isBindingJustPressed(KeybindRegistry.PAUSE)) {
             mc.thePlayer.closeScreen();
         }
 
         // ホットバー切り替え (インベントリ等で有用)
-        if (isBindingJustPressed(ControllerBindings.HOTBAR_NEXT) && mc.thePlayer != null) {
+        if (isBindingJustPressed(KeybindRegistry.HOTBAR_NEXT) && mc.thePlayer != null) {
             scrollHotbar(mc, 1);
         }
-        if (isBindingJustPressed(ControllerBindings.HOTBAR_PREV) && mc.thePlayer != null) {
+        if (isBindingJustPressed(KeybindRegistry.HOTBAR_PREV) && mc.thePlayer != null) {
             scrollHotbar(mc, -1);
         }
     }

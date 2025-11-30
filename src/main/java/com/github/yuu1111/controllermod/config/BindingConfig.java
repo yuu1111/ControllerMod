@@ -9,8 +9,8 @@ import java.util.Map;
 
 import com.github.yuu1111.controllermod.ControllerMod;
 import com.github.yuu1111.controllermod.constants.Reference;
-import com.github.yuu1111.controllermod.input.ControllerBinding;
-import com.github.yuu1111.controllermod.input.ControllerBindings;
+import com.github.yuu1111.controllermod.input.Keybind;
+import com.github.yuu1111.controllermod.input.KeybindRegistry;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -58,7 +58,7 @@ public final class BindingConfig {
             BindingData data = GSON.fromJson(reader, BindingData.class);
             if (data != null && data.bindings != null) {
                 for (Map.Entry<String, Integer> entry : data.bindings.entrySet()) {
-                    ControllerBinding binding = ControllerBindings.get(entry.getKey());
+                    Keybind binding = KeybindRegistry.get(entry.getKey());
                     if (binding != null) {
                         binding.setButton(entry.getValue());
                     }
@@ -83,7 +83,7 @@ public final class BindingConfig {
         data.bindings = new HashMap<>();
 
         // 変更されたバインドのみ保存
-        for (ControllerBinding binding : ControllerBindings.getAll()) {
+        for (Keybind binding : KeybindRegistry.getAll()) {
             if (binding.isModified()) {
                 data.bindings.put(binding.getId(), binding.getButton());
             }
@@ -101,7 +101,7 @@ public final class BindingConfig {
      * 全バインドをリセットして保存
      */
     public static void resetAndSave() {
-        ControllerBindings.resetAll();
+        KeybindRegistry.resetAll();
         save();
     }
 

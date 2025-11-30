@@ -10,8 +10,8 @@ import net.minecraft.client.resources.I18n;
 import org.lwjgl.input.Keyboard;
 
 import com.github.yuu1111.controllermod.config.BindingConfig;
-import com.github.yuu1111.controllermod.input.ControllerBinding;
-import com.github.yuu1111.controllermod.input.ControllerBindings;
+import com.github.yuu1111.controllermod.input.Keybind;
+import com.github.yuu1111.controllermod.input.KeybindRegistry;
 
 /**
  * コントローラーバインド設定GUI
@@ -20,7 +20,7 @@ import com.github.yuu1111.controllermod.input.ControllerBindings;
  * カテゴリ別にバインドを表示し、変更可能にする。
  * ボタンをクリックしてコントローラーのボタンを押すとリバインドされる。
  */
-public class GuiControllerBindings extends GuiScreen {
+public class GuiKeybindSettings extends GuiScreen {
 
     /** 親画面 (戻る時に表示) */
     private final GuiScreen parent;
@@ -29,7 +29,7 @@ public class GuiControllerBindings extends GuiScreen {
     private final List<BindingButton> bindingButtons = new ArrayList<>();
 
     /** 現在リバインド中のバインド (null = リバインド中でない) */
-    private ControllerBinding rebindingTarget = null;
+    private Keybind rebindingTarget = null;
 
     /** スクロールオフセット */
     private int scrollOffset = 0;
@@ -54,7 +54,7 @@ public class GuiControllerBindings extends GuiScreen {
      *
      * @param parent 親画面
      */
-    public GuiControllerBindings(GuiScreen parent) {
+    public GuiKeybindSettings(GuiScreen parent) {
         this.parent = parent;
     }
 
@@ -69,9 +69,9 @@ public class GuiControllerBindings extends GuiScreen {
 
         // 総行数を計算 (カテゴリ + バインド)
         totalRows = 0;
-        for (String category : ControllerBindings.getCategories()) {
+        for (String category : KeybindRegistry.getCategories()) {
             totalRows++; // カテゴリヘッダー
-            totalRows += ControllerBindings.getByCategory(category)
+            totalRows += KeybindRegistry.getByCategory(category)
                 .size();
         }
 
@@ -102,9 +102,9 @@ public class GuiControllerBindings extends GuiScreen {
         int buttonX = width / 2 + 60;
         int row = 0;
 
-        for (String category : ControllerBindings.getCategories()) {
+        for (String category : KeybindRegistry.getCategories()) {
             row++; // カテゴリヘッダー行
-            for (ControllerBinding binding : ControllerBindings.getByCategory(category)) {
+            for (Keybind binding : KeybindRegistry.getByCategory(category)) {
                 BindingButton btn = new BindingButton(binding, buttonX, row, buttonWidth);
                 bindingButtons.add(btn);
                 row++;
@@ -118,7 +118,7 @@ public class GuiControllerBindings extends GuiScreen {
             BindingConfig.save();
             mc.displayGuiScreen(parent);
         } else if (button.id == BUTTON_RESET) {
-            ControllerBindings.resetAll();
+            KeybindRegistry.resetAll();
             rebindingTarget = null;
         }
     }
@@ -136,7 +136,7 @@ public class GuiControllerBindings extends GuiScreen {
         int visibleStart = scrollOffset;
         int visibleEnd = scrollOffset + visibleRows;
 
-        for (String category : ControllerBindings.getCategories()) {
+        for (String category : KeybindRegistry.getCategories()) {
             // カテゴリヘッダー
             if (row >= visibleStart && row < visibleEnd) {
                 int y = startY + (row - scrollOffset) * ROW_HEIGHT;
@@ -146,7 +146,7 @@ public class GuiControllerBindings extends GuiScreen {
             row++;
 
             // バインド項目
-            for (ControllerBinding binding : ControllerBindings.getByCategory(category)) {
+            for (Keybind binding : KeybindRegistry.getByCategory(category)) {
                 if (row >= visibleStart && row < visibleEnd) {
                     int y = startY + (row - scrollOffset) * ROW_HEIGHT;
                     drawBindingRow(binding, y, mouseX, mouseY);
@@ -174,7 +174,7 @@ public class GuiControllerBindings extends GuiScreen {
     /**
      * バインド行を描画
      */
-    private void drawBindingRow(ControllerBinding binding, int y, int mouseX, int mouseY) {
+    private void drawBindingRow(Keybind binding, int y, int mouseX, int mouseY) {
         // バインド名
         String name = I18n.format(binding.getTranslationKey());
         drawString(fontRendererObj, name, width / 2 - 140, y + 6, 0xFFFFFF);
@@ -196,7 +196,7 @@ public class GuiControllerBindings extends GuiScreen {
             buttonText = "> ... <";
             textColor = 0xFF000000;
         } else {
-            buttonText = ControllerBindings.getButtonName(binding.getButton());
+            buttonText = KeybindRegistry.getButtonName(binding.getButton());
             textColor = binding.isModified() ? 0xFFFFFF55 : 0xFFFFFFFF;
         }
         int textWidth = fontRendererObj.getStringWidth(buttonText);
@@ -225,9 +225,9 @@ public class GuiControllerBindings extends GuiScreen {
         int buttonX = width / 2 + 60;
         int buttonWidth = 80;
 
-        for (String category : ControllerBindings.getCategories()) {
+        for (String category : KeybindRegistry.getCategories()) {
             row++; // カテゴリヘッダー
-            for (ControllerBinding binding : ControllerBindings.getByCategory(category)) {
+            for (Keybind binding : KeybindRegistry.getByCategory(category)) {
                 if (row >= visibleStart && row < visibleEnd) {
                     int y = startY + (row - scrollOffset) * ROW_HEIGHT;
                     if (mouseX >= buttonX && mouseX < buttonX + buttonWidth && mouseY >= y && mouseY < y + 20) {
@@ -292,12 +292,12 @@ public class GuiControllerBindings extends GuiScreen {
      */
     private static class BindingButton {
 
-        final ControllerBinding binding;
+        final Keybind binding;
         final int x;
         final int row;
         final int width;
 
-        BindingButton(ControllerBinding binding, int x, int row, int width) {
+        BindingButton(Keybind binding, int x, int row, int width) {
             this.binding = binding;
             this.x = x;
             this.row = row;

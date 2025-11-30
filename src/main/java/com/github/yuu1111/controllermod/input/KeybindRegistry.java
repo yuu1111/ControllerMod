@@ -16,7 +16,7 @@ import java.util.Map;
  * 
  * @see SDL2
  */
-public final class ControllerBindings {
+public final class KeybindRegistry {
 
     // カテゴリ定数
     public static final String CATEGORY_MOVEMENT = "movement";
@@ -26,21 +26,21 @@ public final class ControllerBindings {
     public static final String CATEGORY_MISC = "misc";
 
     // バインド定義 - 移動系
-    public static final ControllerBinding JUMP = new ControllerBinding(
+    public static final Keybind JUMP = new Keybind(
         "jump",
         "controllermod.binding.jump",
         CATEGORY_MOVEMENT,
         BUTTON_A,
         true);
 
-    public static final ControllerBinding SNEAK = new ControllerBinding(
+    public static final Keybind SNEAK = new Keybind(
         "sneak",
         "controllermod.binding.sneak",
         CATEGORY_MOVEMENT,
         BUTTON_B,
         true);
 
-    public static final ControllerBinding SPRINT = new ControllerBinding(
+    public static final Keybind SPRINT = new Keybind(
         "sprint",
         "controllermod.binding.sprint",
         CATEGORY_MOVEMENT,
@@ -48,7 +48,7 @@ public final class ControllerBindings {
         true);
 
     // バインド定義 - 戦闘系
-    public static final ControllerBinding ATTACK = new ControllerBinding(
+    public static final Keybind ATTACK = new Keybind(
         "attack",
         "controllermod.binding.attack",
         CATEGORY_COMBAT,
@@ -56,7 +56,7 @@ public final class ControllerBindings {
         true,
         true);
 
-    public static final ControllerBinding USE_ITEM = new ControllerBinding(
+    public static final Keybind USE_ITEM = new Keybind(
         "use_item",
         "controllermod.binding.use_item",
         CATEGORY_COMBAT,
@@ -65,42 +65,42 @@ public final class ControllerBindings {
         true);
 
     // バインド定義 - ゲームプレイ系
-    public static final ControllerBinding INVENTORY = new ControllerBinding(
+    public static final Keybind INVENTORY = new Keybind(
         "inventory",
         "controllermod.binding.inventory",
         CATEGORY_GAMEPLAY,
         BUTTON_Y,
         false);
 
-    public static final ControllerBinding DROP_ITEM = new ControllerBinding(
+    public static final Keybind DROP_ITEM = new Keybind(
         "drop_item",
         "controllermod.binding.drop_item",
         CATEGORY_GAMEPLAY,
         BUTTON_DPAD_DOWN,
         true);
 
-    public static final ControllerBinding HOTBAR_NEXT = new ControllerBinding(
+    public static final Keybind HOTBAR_NEXT = new Keybind(
         "hotbar_next",
         "controllermod.binding.hotbar_next",
         CATEGORY_GAMEPLAY,
         BUTTON_RB,
         false);
 
-    public static final ControllerBinding HOTBAR_PREV = new ControllerBinding(
+    public static final Keybind HOTBAR_PREV = new Keybind(
         "hotbar_prev",
         "controllermod.binding.hotbar_prev",
         CATEGORY_GAMEPLAY,
         BUTTON_LB,
         false);
 
-    public static final ControllerBinding TOGGLE_PERSPECTIVE = new ControllerBinding(
+    public static final Keybind TOGGLE_PERSPECTIVE = new Keybind(
         "toggle_perspective",
         "controllermod.binding.toggle_perspective",
         CATEGORY_GAMEPLAY,
         BUTTON_DPAD_UP,
         false);
 
-    public static final ControllerBinding OPEN_CHAT = new ControllerBinding(
+    public static final Keybind OPEN_CHAT = new Keybind(
         "open_chat",
         "controllermod.binding.open_chat",
         CATEGORY_GAMEPLAY,
@@ -108,14 +108,14 @@ public final class ControllerBindings {
         false);
 
     // バインド定義 - GUI系
-    public static final ControllerBinding GUI_SELECT = new ControllerBinding(
+    public static final Keybind GUI_SELECT = new Keybind(
         "gui_select",
         "controllermod.binding.gui_select",
         CATEGORY_GUI,
         BUTTON_A,
         false);
 
-    public static final ControllerBinding GUI_BACK = new ControllerBinding(
+    public static final Keybind GUI_BACK = new Keybind(
         "gui_back",
         "controllermod.binding.gui_back",
         CATEGORY_GUI,
@@ -123,14 +123,14 @@ public final class ControllerBindings {
         false);
 
     // バインド定義 - その他
-    public static final ControllerBinding PAUSE = new ControllerBinding(
+    public static final Keybind PAUSE = new Keybind(
         "pause",
         "controllermod.binding.pause",
         CATEGORY_MISC,
         BUTTON_START,
         false);
 
-    public static final ControllerBinding PLAYER_LIST = new ControllerBinding(
+    public static final Keybind PLAYER_LIST = new Keybind(
         "player_list",
         "controllermod.binding.player_list",
         CATEGORY_MISC,
@@ -138,7 +138,7 @@ public final class ControllerBindings {
         true);
 
     /** 全バインドのマップ (ID -> Binding) */
-    private static final Map<String, ControllerBinding> BINDINGS = new LinkedHashMap<>();
+    private static final Map<String, Keybind> BINDINGS = new LinkedHashMap<>();
 
     /** カテゴリ順序 */
     private static final List<String> CATEGORY_ORDER = new ArrayList<>();
@@ -169,37 +169,37 @@ public final class ControllerBindings {
         register(PLAYER_LIST);
     }
 
-    private ControllerBindings() {
+    private KeybindRegistry() {
         // ユーティリティクラス
     }
 
     /**
      * バインドを登録
      */
-    private static void register(ControllerBinding binding) {
+    private static void register(Keybind binding) {
         BINDINGS.put(binding.getId(), binding);
     }
 
     /**
      * IDでバインドを取得
      */
-    public static ControllerBinding get(String id) {
+    public static Keybind get(String id) {
         return BINDINGS.get(id);
     }
 
     /**
      * 全バインドを取得
      */
-    public static List<ControllerBinding> getAll() {
+    public static List<Keybind> getAll() {
         return new ArrayList<>(BINDINGS.values());
     }
 
     /**
      * カテゴリ別にバインドを取得
      */
-    public static List<ControllerBinding> getByCategory(String category) {
-        List<ControllerBinding> result = new ArrayList<>();
-        for (ControllerBinding binding : BINDINGS.values()) {
+    public static List<Keybind> getByCategory(String category) {
+        List<Keybind> result = new ArrayList<>();
+        for (Keybind binding : BINDINGS.values()) {
             if (binding.getCategory()
                 .equals(category)) {
                 result.add(binding);
@@ -219,7 +219,7 @@ public final class ControllerBindings {
      * 全バインドをデフォルトにリセット
      */
     public static void resetAll() {
-        for (ControllerBinding binding : BINDINGS.values()) {
+        for (Keybind binding : BINDINGS.values()) {
             binding.reset();
         }
     }
@@ -231,8 +231,8 @@ public final class ControllerBindings {
      * @param excludeId 除外するバインドID (null可)
      * @return 既に使用されている場合はそのバインド、なければnull
      */
-    public static ControllerBinding findConflict(int button, String excludeId) {
-        for (ControllerBinding binding : BINDINGS.values()) {
+    public static Keybind findConflict(int button, String excludeId) {
+        for (Keybind binding : BINDINGS.values()) {
             if (binding.getId()
                 .equals(excludeId)) {
                 continue;

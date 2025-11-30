@@ -88,7 +88,7 @@ public class GuiControllerConfig extends GuiScreen {
                 }
                 break;
             case BUTTON_BINDINGS:
-                mc.displayGuiScreen(new GuiControllerBindings(this));
+                mc.displayGuiScreen(new GuiKeybindSettings(this));
                 break;
             case BUTTON_DONE:
                 mc.displayGuiScreen(parent);

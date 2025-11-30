@@ -7,7 +7,7 @@ package com.github.yuu1111.controllermod.input;
  * 1つのアクション（ジャンプ、攻撃など）に対するボタン/トリガーのバインドを表す。
  * デフォルト値と現在値を保持し、リセット機能を提供する。
  */
-public class ControllerBinding {
+public class Keybind {
 
     /** バインドの識別子 (例: "jump", "attack") */
     private final String id;
@@ -40,7 +40,7 @@ public class ControllerBinding {
      * @param isTrigger      トリガー入力か
      * @param isHold         ホールド動作か
      */
-    public ControllerBinding(String id, String translationKey, String category, int defaultButton, boolean isTrigger,
+    public Keybind(String id, String translationKey, String category, int defaultButton, boolean isTrigger,
         boolean isHold) {
         this.id = id;
         this.translationKey = translationKey;
@@ -54,7 +54,7 @@ public class ControllerBinding {
     /**
      * ボタンバインド用の簡易コンストラクタ
      */
-    public ControllerBinding(String id, String translationKey, String category, int defaultButton, boolean isHold) {
+    public Keybind(String id, String translationKey, String category, int defaultButton, boolean isHold) {
         this(id, translationKey, category, defaultButton, false, isHold);
     }
 
