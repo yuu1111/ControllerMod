@@ -24,6 +24,9 @@ public final class VirtualCursorManager {
     /** バーチャルカーソルモードが有効か */
     private static boolean enabled = true;
 
+    /** コントローラー入力がアクティブか（スティック/ボタン使用中） */
+    private static boolean controllerInputActive = false;
+
     private VirtualCursorManager() {
         // ユーティリティクラス
     }
@@ -89,6 +92,31 @@ public final class VirtualCursorManager {
      */
     public static boolean isEnabled() {
         return enabled;
+    }
+
+    /**
+     * コントローラー入力がアクティブかどうかを返す
+     *
+     * <p>
+     * Mixinから呼び出される。コントローラーのスティック/ボタンが
+     * 使用されている間はtrueを返す。これにより実マウスとの共存が可能。
+     *
+     * @return コントローラー入力がアクティブな場合は {@code true}
+     */
+    public static boolean isControllerInputActive() {
+        return controllerInputActive && isActive();
+    }
+
+    /**
+     * コントローラー入力のアクティブ状態を設定する
+     *
+     * <p>
+     * VirtualCursorから呼び出される。スティック入力やボタン押下時にtrueを設定。
+     *
+     * @param active アクティブにする場合は {@code true}
+     */
+    public static void setControllerInputActive(boolean active) {
+        controllerInputActive = active;
     }
 
     /**

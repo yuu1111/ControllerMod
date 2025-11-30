@@ -141,13 +141,19 @@ public class VirtualCursor {
             active = false;
             mouseButtonHeld = false;
             heldMouseButton = -1;
+            VirtualCursorManager.setControllerInputActive(false);
         }
 
         wasGuiOpen = guiOpen;
 
         if (!active || currentScreen == null) {
+            VirtualCursorManager.setControllerInputActive(false);
             return;
         }
+
+        // コントローラー入力があるかチェック（スティックまたはボタン）
+        boolean hasControllerInput = Math.abs(stickX) > 0.01f || Math.abs(stickY) > 0.01f || buttonA || buttonB;
+        VirtualCursorManager.setControllerInputActive(hasControllerInput);
 
         ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int screenWidth = sr.getScaledWidth();
