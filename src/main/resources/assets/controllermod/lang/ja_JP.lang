@@ -11,3 +11,34 @@ controllermod.config.triggerThreshold=トリガー閾値
 controllermod.config.triggerThreshold.tooltip=トリガーの反応閾値 (0.1 - 0.9)
 controllermod.config.cursorSpeed=カーソル速度
 controllermod.config.cursorSpeed.tooltip=GUI画面でのバーチャルカーソルの移動速度
+
+# Binding Categories
+controllermod.binding.category.movement=移動
+controllermod.binding.category.combat=戦闘
+controllermod.binding.category.gameplay=ゲームプレイ
+controllermod.binding.category.gui=GUI操作
+controllermod.binding.category.misc=その他
+
+# Bindings
+controllermod.binding.jump=ジャンプ
+controllermod.binding.sneak=スニーク
+controllermod.binding.sprint=ダッシュ
+controllermod.binding.attack=攻撃
+controllermod.binding.use_item=アイテム使用
+controllermod.binding.inventory=インベントリ
+controllermod.binding.drop_item=アイテムドロップ
+controllermod.binding.hotbar_next=ホットバー (次)
+controllermod.binding.hotbar_prev=ホットバー (前)
+controllermod.binding.toggle_perspective=視点切替
+controllermod.binding.open_chat=チャット
+controllermod.binding.gui_select=選択
+controllermod.binding.gui_back=戻る
+controllermod.binding.pause=ポーズ
+controllermod.binding.player_list=プレイヤーリスト
+
+# GUI
+controllermod.gui.config.title=コントローラー設定
+controllermod.gui.config.general=一般設定
+controllermod.gui.config.bindings=キーバインド
+controllermod.gui.bindings.title=コントローラーキーバインド設定
+controllermod.gui.bindings.reset=すべてリセット

@@ -6,104 +6,28 @@ import net.minecraft.client.gui.GuiIngameMenu;
 import net.minecraft.client.settings.KeyBinding;
 
 import com.github.yuu1111.controllermod.config.ControllerConfig;
+import com.github.yuu1111.controllermod.constants.SDL2Constants;
 import com.github.yuu1111.controllermod.gui.VirtualCursor;
 import com.github.yuu1111.controllermod.gui.VirtualCursorManager;
+import com.github.yuu1111.controllermod.input.ControllerBinding;
+import com.github.yuu1111.controllermod.input.ControllerBindings;
 
 /**
  * コントローラー入力をMinecraftのアクションにマッピングするクラス
  *
  * <p>
  * SDL2から受け取った軸・ボタン入力を処理し、Minecraftのキーバインドや
- * プレイヤー操作に変換するデッドゾーン処理や感度調整も行う
+ * プレイヤー操作に変換する。デッドゾーン処理や感度調整も行う。
  *
- * <h2>ボタンマッピング (Xbox レイアウト)</h2>
- * <ul>
- * <li>A: ジャンプ</li>
- * <li>B: スニーク</li>
- * <li>Y: インベントリ</li>
- * <li>RT: 攻撃/破壊</li>
- * <li>LT: 使用/設置</li>
- * <li>RB/LB: ホットバー切り替え</li>
- * <li>L3: ダッシュ</li>
- * <li>Start: ポーズメニュー</li>
- * </ul>
+ * <p>
+ * ボタン/軸定数はControllerBindingsで定義。
  *
- * @author yuu1111
  * @see ControllerHandler
- * @see <a href="https://wiki.libsdl.org/SDL2/SDL_GameControllerButton">SDL2 GameControllerButton</a>
+ * @see ControllerBindings
  */
 public class InputHandler {
 
-    // ===== SDL2 軸インデックス =====
-
-    /** 左スティック X軸 */
-    public static final int AXIS_LEFT_X = 0;
-
-    /** 左スティック Y軸 */
-    public static final int AXIS_LEFT_Y = 1;
-
-    /** 右スティック X軸 */
-    public static final int AXIS_RIGHT_X = 2;
-
-    /** 右スティック Y軸 */
-    public static final int AXIS_RIGHT_Y = 3;
-
-    /** 左トリガー (LT/L2) */
-    public static final int AXIS_TRIGGER_LEFT = 4;
-
-    /** 右トリガー (RT/R2) */
-    public static final int AXIS_TRIGGER_RIGHT = 5;
-
-    // ===== SDL2 ボタンインデックス =====
-    // https://wiki.libsdl.org/SDL2/SDL_GameControllerButton
-
-    /** Aボタン (Xbox) / ×ボタン (PlayStation) */
-    public static final int BUTTON_A = 0;
-
-    /** Bボタン (Xbox) / ○ボタン (PlayStation) */
-    public static final int BUTTON_B = 1;
-
-    /** Xボタン (Xbox) / □ボタン (PlayStation) */
-    public static final int BUTTON_X = 2;
-
-    /** Yボタン (Xbox) / △ボタン (PlayStation) */
-    public static final int BUTTON_Y = 3;
-
-    /** Back/Selectボタン (View) */
-    public static final int BUTTON_BACK = 4;
-
-    /** Guideボタン (Xboxボタン / PSボタン) */
-    public static final int BUTTON_GUIDE = 5;
-
-    /** Startボタン (Menu) */
-    public static final int BUTTON_START = 6;
-
-    /** 左スティック押込 (L3) */
-    public static final int BUTTON_L3 = 7;
-
-    /** 右スティック押込 (R3) */
-    public static final int BUTTON_R3 = 8;
-
-    /** 左バンパー (LB/L1) */
-    public static final int BUTTON_LB = 9;
-
-    /** 右バンパー (RB/R1) */
-    public static final int BUTTON_RB = 10;
-
-    /** D-Pad 上 */
-    public static final int BUTTON_DPAD_UP = 11;
-
-    /** D-Pad 下 */
-    public static final int BUTTON_DPAD_DOWN = 12;
-
-    /** D-Pad 左 */
-    public static final int BUTTON_DPAD_LEFT = 13;
-
-    /** D-Pad 右 */
-    public static final int BUTTON_DPAD_RIGHT = 14;
-
-    // ===== 軸の状態 =====
-
+    // 軸の状態
     private float leftStickX = 0;
     private float leftStickY = 0;
     private float rightStickX = 0;
@@ -111,12 +35,8 @@ public class InputHandler {
     private float triggerLeft = 0;
     private float triggerRight = 0;
 
-    // ===== ボタンの状態 =====
-
-    /** 現在フレームのボタン状態 */
+    // ボタンの状態
     private boolean[] buttonStates = new boolean[16];
-
-    /** 前フレームのボタン状態 (JustPressed判定用) */
     private boolean[] prevButtonStates = new boolean[16];
 
     /** バーチャルカーソル (GUI操作用) */
@@ -138,30 +58,30 @@ public class InputHandler {
      * 軸の値を更新する
      *
      * <p>
-     * スティック軸にはデッドゾーン処理を適用する
-     * トリガー軸はそのまま保存する
+     * スティック軸にはデッドゾーン処理を適用する。
+     * トリガー軸はそのまま保存する。
      *
-     * @param axisCode SDL2軸コード ({@link #AXIS_LEFT_X} など)
+     * @param axisCode SDL2軸コード ({@link SDL2Constants#AXIS_LEFT_X} など)
      * @param value    軸の値 (-1.0 〜 1.0)
      */
     public void updateAxis(int axisCode, float value) {
         switch (axisCode) {
-            case AXIS_LEFT_X:
+            case SDL2Constants.AXIS_LEFT_X:
                 leftStickX = applyDeadzone(value);
                 break;
-            case AXIS_LEFT_Y:
+            case SDL2Constants.AXIS_LEFT_Y:
                 leftStickY = applyDeadzone(value);
                 break;
-            case AXIS_RIGHT_X:
+            case SDL2Constants.AXIS_RIGHT_X:
                 rightStickX = applyDeadzone(value);
                 break;
-            case AXIS_RIGHT_Y:
+            case SDL2Constants.AXIS_RIGHT_Y:
                 rightStickY = applyDeadzone(value);
                 break;
-            case AXIS_TRIGGER_LEFT:
+            case SDL2Constants.AXIS_TRIGGER_LEFT:
                 triggerLeft = value;
                 break;
-            case AXIS_TRIGGER_RIGHT:
+            case SDL2Constants.AXIS_TRIGGER_RIGHT:
                 triggerRight = value;
                 break;
         }
@@ -170,7 +90,7 @@ public class InputHandler {
     /**
      * ボタンの状態を更新する
      *
-     * @param buttonCode SDL2ボタンコード ({@link #BUTTON_A} など)
+     * @param buttonCode SDL2ボタンコード
      * @param pressed    ボタンが押されているかどうか
      */
     public void updateButton(int buttonCode, boolean pressed) {
@@ -191,7 +111,7 @@ public class InputHandler {
      * </ol>
      *
      * <p>
-     * GUIが開いている場合はバーチャルカーソルモードに切り替える
+     * GUIが開いている場合はバーチャルカーソルモードに切り替える。
      */
     public void applyMovement() {
         Minecraft mc = Minecraft.getMinecraft();
@@ -202,7 +122,11 @@ public class InputHandler {
             releaseAllButtons();
 
             // バーチャルカーソルを更新
-            virtualCursor.update(leftStickX, leftStickY, buttonStates[BUTTON_A], buttonStates[BUTTON_B]);
+            virtualCursor.update(
+                leftStickX,
+                leftStickY,
+                isBindingPressed(ControllerBindings.GUI_SELECT),
+                isBindingPressed(ControllerBindings.GUI_BACK));
 
             // GUI でも一部のボタンは処理する
             applyGuiButtons(mc);
@@ -235,68 +159,104 @@ public class InputHandler {
     }
 
     /**
+     * バインドが押されているかチェック
+     */
+    private boolean isBindingPressed(ControllerBinding binding) {
+        if (binding.isUnbound()) {
+            return false;
+        }
+        int button = binding.getButton();
+        // トリガーの場合
+        if (button == SDL2Constants.TRIGGER_LEFT) {
+            return triggerLeft > ControllerConfig.triggerThreshold;
+        }
+        if (button == SDL2Constants.TRIGGER_RIGHT) {
+            return triggerRight > ControllerConfig.triggerThreshold;
+        }
+        // 通常ボタン
+        if (button >= 0 && button < buttonStates.length) {
+            return buttonStates[button];
+        }
+        return false;
+    }
+
+    /**
+     * バインドが今フレームで押されたか (JustPressed)
+     */
+    private boolean isBindingJustPressed(ControllerBinding binding) {
+        if (binding.isUnbound()) {
+            return false;
+        }
+        int button = binding.getButton();
+        // トリガーの場合
+        if (button == SDL2Constants.TRIGGER_LEFT) {
+            // トリガーのJustPressedは非対応 (ホールドのみ)
+            return false;
+        }
+        if (button == SDL2Constants.TRIGGER_RIGHT) {
+            return false;
+        }
+        // 通常ボタン
+        if (button >= 0 && button < buttonStates.length) {
+            return buttonStates[button] && !prevButtonStates[button];
+        }
+        return false;
+    }
+
+    /**
      * ボタン入力をMinecraftアクションにマッピングする
      *
      * @param mc Minecraftインスタンス
      */
     private void applyButtons(Minecraft mc) {
-        // A: ジャンプ
-        setKeyState(mc.gameSettings.keyBindJump, buttonStates[BUTTON_A]);
+        // ジャンプ
+        setKeyState(mc.gameSettings.keyBindJump, isBindingPressed(ControllerBindings.JUMP));
 
-        // B: スニーク (ホールド)
-        setKeyState(mc.gameSettings.keyBindSneak, buttonStates[BUTTON_B]);
+        // スニーク (ホールド)
+        setKeyState(mc.gameSettings.keyBindSneak, isBindingPressed(ControllerBindings.SNEAK));
 
-        // Y: インベントリ (押した瞬間のみ)
-        if (isButtonJustPressed(BUTTON_Y)) {
+        // インベントリ (押した瞬間のみ)
+        if (isBindingJustPressed(ControllerBindings.INVENTORY)) {
             mc.displayGuiScreen(new net.minecraft.client.gui.inventory.GuiInventory(mc.thePlayer));
         }
 
-        // X: (将来の拡張用に予約)
+        // ダッシュ
+        setKeyState(mc.gameSettings.keyBindSprint, isBindingPressed(ControllerBindings.SPRINT));
 
-        // L3: ダッシュ
-        setKeyState(mc.gameSettings.keyBindSprint, buttonStates[BUTTON_L3]);
+        // 攻撃/破壊
+        setKeyState(mc.gameSettings.keyBindAttack, isBindingPressed(ControllerBindings.ATTACK));
 
-        // RT: 攻撃/破壊
-        setKeyState(mc.gameSettings.keyBindAttack, triggerRight > ControllerConfig.triggerThreshold);
+        // 使用/設置
+        setKeyState(mc.gameSettings.keyBindUseItem, isBindingPressed(ControllerBindings.USE_ITEM));
 
-        // LT: 使用/設置
-        setKeyState(mc.gameSettings.keyBindUseItem, triggerLeft > ControllerConfig.triggerThreshold);
-
-        // RB: 次のホットバースロット
-        if (isButtonJustPressed(BUTTON_RB)) {
+        // 次のホットバースロット
+        if (isBindingJustPressed(ControllerBindings.HOTBAR_NEXT)) {
             scrollHotbar(mc, 1);
         }
 
-        // LB: 前のホットバースロット
-        if (isButtonJustPressed(BUTTON_LB)) {
+        // 前のホットバースロット
+        if (isBindingJustPressed(ControllerBindings.HOTBAR_PREV)) {
             scrollHotbar(mc, -1);
         }
 
-        // Start: ポーズメニュー
-        if (isButtonJustPressed(BUTTON_START)) {
+        // ポーズメニュー
+        if (isBindingJustPressed(ControllerBindings.PAUSE)) {
             mc.displayGuiScreen(new GuiIngameMenu());
         }
 
-        // R3: 視点切替 (F5相当)
-        if (isButtonJustPressed(BUTTON_R3)) {
+        // 視点切替
+        if (isBindingJustPressed(ControllerBindings.TOGGLE_PERSPECTIVE)) {
             toggleViewPerspective(mc);
         }
 
-        // Back: プレイヤーリスト (Tabホールド)
-        setKeyState(mc.gameSettings.keyBindPlayerList, buttonStates[BUTTON_BACK]);
+        // プレイヤーリスト (Tabホールド)
+        setKeyState(mc.gameSettings.keyBindPlayerList, isBindingPressed(ControllerBindings.PLAYER_LIST));
 
-        // D-Pad 上: 視点切替 (F5相当)
-        if (isButtonJustPressed(BUTTON_DPAD_UP)) {
-            toggleViewPerspective(mc);
-        }
+        // アイテムドロップ
+        setKeyState(mc.gameSettings.keyBindDrop, isBindingPressed(ControllerBindings.DROP_ITEM));
 
-        // D-Pad 下: アイテムドロップ (Q)
-        setKeyState(mc.gameSettings.keyBindDrop, buttonStates[BUTTON_DPAD_DOWN]);
-
-        // D-Pad 左: (将来の拡張用に予約)
-
-        // D-Pad 右: チャット画面を開く (T)
-        if (isButtonJustPressed(BUTTON_DPAD_RIGHT)) {
+        // チャット画面を開く
+        if (isBindingJustPressed(ControllerBindings.OPEN_CHAT)) {
             mc.displayGuiScreen(new GuiChat());
         }
     }
@@ -304,28 +264,19 @@ public class InputHandler {
     /**
      * GUI画面でのボタン入力を処理する
      *
-     * <p>
-     * GUI が開いている間も機能するボタン:
-     * <ul>
-     * <li>Start: GUI を閉じる</li>
-     * <li>RB/LB: ホットバー切り替え (インベントリ等で有用)</li>
-     * </ul>
-     *
      * @param mc Minecraftインスタンス
      */
     private void applyGuiButtons(Minecraft mc) {
-        // Start: GUI を閉じる
-        if (isButtonJustPressed(BUTTON_START)) {
+        // ポーズ: GUI を閉じる
+        if (isBindingJustPressed(ControllerBindings.PAUSE)) {
             mc.thePlayer.closeScreen();
         }
 
-        // RB: 次のホットバースロット
-        if (isButtonJustPressed(BUTTON_RB) && mc.thePlayer != null) {
+        // ホットバー切り替え (インベントリ等で有用)
+        if (isBindingJustPressed(ControllerBindings.HOTBAR_NEXT) && mc.thePlayer != null) {
             scrollHotbar(mc, 1);
         }
-
-        // LB: 前のホットバースロット
-        if (isButtonJustPressed(BUTTON_LB) && mc.thePlayer != null) {
+        if (isBindingJustPressed(ControllerBindings.HOTBAR_PREV) && mc.thePlayer != null) {
             scrollHotbar(mc, -1);
         }
     }
@@ -343,16 +294,6 @@ public class InputHandler {
         if (mc.gameSettings.thirdPersonView > 2) {
             mc.gameSettings.thirdPersonView = 0;
         }
-    }
-
-    /**
-     * ボタンが今フレームで押されたか (JustPressed) をチェックする
-     *
-     * @param buttonCode チェックするボタンのコード
-     * @return 今フレームで押された場合は {@code true}
-     */
-    private boolean isButtonJustPressed(int buttonCode) {
-        return buttonStates[buttonCode] && !prevButtonStates[buttonCode];
     }
 
     /**

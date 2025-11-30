@@ -11,3 +11,34 @@ controllermod.config.triggerThreshold=Trigger Threshold
 controllermod.config.triggerThreshold.tooltip=Threshold for trigger activation (0.1 - 0.9)
 controllermod.config.cursorSpeed=Cursor Speed
 controllermod.config.cursorSpeed.tooltip=Virtual cursor speed in GUI menus
+
+# Binding Categories
+controllermod.binding.category.movement=Movement
+controllermod.binding.category.combat=Combat
+controllermod.binding.category.gameplay=Gameplay
+controllermod.binding.category.gui=GUI
+controllermod.binding.category.misc=Misc
+
+# Bindings
+controllermod.binding.jump=Jump
+controllermod.binding.sneak=Sneak
+controllermod.binding.sprint=Sprint
+controllermod.binding.attack=Attack
+controllermod.binding.use_item=Use Item
+controllermod.binding.inventory=Inventory
+controllermod.binding.drop_item=Drop Item
+controllermod.binding.hotbar_next=Hotbar Next
+controllermod.binding.hotbar_prev=Hotbar Previous
+controllermod.binding.toggle_perspective=Toggle Perspective
+controllermod.binding.open_chat=Open Chat
+controllermod.binding.gui_select=GUI Select
+controllermod.binding.gui_back=GUI Back
+controllermod.binding.pause=Pause
+controllermod.binding.player_list=Player List
+
+# GUI
+controllermod.gui.config.title=Controller Settings
+controllermod.gui.config.general=General Settings
+controllermod.gui.config.bindings=Key Bindings
+controllermod.gui.bindings.title=Controller Key Bindings
+controllermod.gui.bindings.reset=Reset All

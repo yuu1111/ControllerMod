@@ -14,8 +14,6 @@ import com.github.yuu1111.controllermod.gui.VirtualCursorManager;
  * <p>
  * コントローラーモード時はバーチャルカーソルの値を、
  * そうでなければ実マウスの値を返す
- *
- * @author yuu1111
  */
 public final class MouseHook {
 

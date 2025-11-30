@@ -12,8 +12,6 @@ import cpw.mods.fml.relauncher.IFMLLoadingPlugin;
  * <p>
  * Mouse.getX(), getY(), isButtonDown() の呼び出しを
  * VirtualCursorManagerのメソッドに置き換えるASMトランスフォーマーを登録する
- *
- * @author yuu1111
  */
 @IFMLLoadingPlugin.MCVersion(MC_VERSION)
 @IFMLLoadingPlugin.TransformerExclusions({ "com.github.yuu1111.controllermod.asm" })

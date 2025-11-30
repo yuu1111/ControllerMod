@@ -22,8 +22,6 @@ import com.github.yuu1111.controllermod.ControllerMod;
  * <li>マウスが動いた → マウスモード (バーチャルカーソル非表示)</li>
  * <li>コントローラー入力 → コントローラーモード (バーチャルカーソル表示)</li>
  * </ul>
- *
- * @author yuu1111
  */
 public final class VirtualCursorManager {
 

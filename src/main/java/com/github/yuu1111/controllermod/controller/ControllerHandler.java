@@ -15,7 +15,6 @@ import uk.co.electronstudio.sdl2gdx.SDL2ControllerManager;
  * このクラスは {@link ControllerListener} を実装し、コントローラーの接続/切断、
  * ボタン入力、軸入力などのイベントを受け取り、{@link InputHandler} に委譲する
  *
- * @author yuu1111
  * @see InputHandler
  * @see SDL2ControllerManager
  */

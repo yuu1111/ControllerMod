@@ -1,9 +1,10 @@
 package com.github.yuu1111.controllermod.proxy;
 
-import com.github.yuu1111.controllermod.ControllerMod;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 
+import com.github.yuu1111.controllermod.ControllerMod;
+import com.github.yuu1111.controllermod.config.BindingConfig;
 import com.github.yuu1111.controllermod.config.ControllerConfig;
 import com.github.yuu1111.controllermod.controller.ControllerHandler;
 import com.github.yuu1111.controllermod.gui.VirtualCursor;
@@ -32,6 +33,9 @@ public class ClientProxy extends CommonProxy {
         } catch (ConfigException e) {
             ControllerMod.LOG.error("Failed to register config", e);
         }
+
+        // バインド設定の読み込み
+        BindingConfig.init(event.getModConfigurationDirectory());
     }
 
     @Override

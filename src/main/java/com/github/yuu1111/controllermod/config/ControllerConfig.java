@@ -10,8 +10,6 @@ import com.gtnewhorizon.gtnhlib.config.Config;
  * <p>
  * GTNHLibの@Configアノテーションを使用して、設定の定義と
  * GUI自動生成を行う。設定値はInputHandlerから参照される。
- *
- * @author yuu1111
  */
 @Config(modid = MOD_ID, category = "controller")
 public class ControllerConfig {

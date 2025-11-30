@@ -31,8 +31,6 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
  * <li>Aボタン: 左クリック</li>
  * <li>Bボタン: 右クリック</li>
  * </ul>
- *
- * @author yuu1111
  */
 public class VirtualCursor {
 

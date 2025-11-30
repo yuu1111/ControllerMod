@@ -4,9 +4,10 @@ import static com.github.yuu1111.controllermod.constants.Constants.MOD_ID;
 import static com.github.yuu1111.controllermod.constants.Constants.MOD_NAME;
 import static com.github.yuu1111.controllermod.constants.Constants.MOD_VERSION;
 
-import com.github.yuu1111.controllermod.proxy.CommonProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.github.yuu1111.controllermod.proxy.CommonProxy;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;

@@ -22,8 +22,6 @@ import org.objectweb.asm.Opcodes;
  * <li>Mouse.getY() → MouseHook.getY()</li>
  * <li>Mouse.isButtonDown(I) → MouseHook.isButtonDown(I)</li>
  * </ul>
- *
- * @author yuu1111
  */
 public class MouseCallTransformer implements IClassTransformer {
 
