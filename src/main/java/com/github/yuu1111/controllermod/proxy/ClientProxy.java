@@ -1,5 +1,6 @@
-package com.github.yuu1111.controllermod;
+package com.github.yuu1111.controllermod.proxy;
 
+import com.github.yuu1111.controllermod.ControllerMod;
 import net.minecraftforge.client.event.GuiScreenEvent;
 import net.minecraftforge.common.MinecraftForge;
 

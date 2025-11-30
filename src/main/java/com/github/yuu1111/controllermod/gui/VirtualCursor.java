@@ -88,12 +88,13 @@ public class VirtualCursor {
                 int.class,
                 int.class);
 
-            // GuiScreen.mouseReleased(int x, int y, int button)
-            // MCP名: mouseReleased, SRG名: func_146286_b
+            // GuiScreen.mouseMovedOrUp(int x, int y, int state)
+            // MCP名: mouseMovedOrUp, SRG名: func_146286_b
+            // 注意: 1.7.10では mouseReleased ではなく mouseMovedOrUp
             mouseReleasedMethod = ReflectionHelper.findMethod(
                 GuiScreen.class,
                 null,
-                new String[] { "mouseReleased", "func_146286_b" },
+                new String[] { "mouseMovedOrUp", "func_146286_b" },
                 int.class,
                 int.class,
                 int.class);
@@ -151,9 +152,14 @@ public class VirtualCursor {
             return;
         }
 
-        // コントローラー入力があるかチェック（スティックまたはボタン）
+        // マウスクリックを検出してモード切り替え
+        VirtualCursorManager.checkMouseInput();
+
+        // コントローラー入力があるかチェック (スティックまたはボタン)
         boolean hasControllerInput = Math.abs(stickX) > 0.01f || Math.abs(stickY) > 0.01f || buttonA || buttonB;
-        VirtualCursorManager.setControllerInputActive(hasControllerInput);
+        if (hasControllerInput) {
+            VirtualCursorManager.setControllerInputActive(true);
+        }
 
         ScaledResolution sr = new ScaledResolution(mc, mc.displayWidth, mc.displayHeight);
         int screenWidth = sr.getScaledWidth();
@@ -290,7 +296,8 @@ public class VirtualCursor {
      * GUI描画後に呼び出す
      */
     public void render() {
-        if (!active) {
+        // コントローラーモード時のみカーソルを表示
+        if (!active || !VirtualCursorManager.isControllerInputActive()) {
             return;
         }
 

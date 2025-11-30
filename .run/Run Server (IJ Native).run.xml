@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Run Server (IJ Native)" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="GradleStartServer" />
+    <module name="ControllerMod.ideVirtualMain" />
+    <option name="PROGRAM_PARAMETERS" value="&quot;nogui&quot;" />
+    <option name="VM_PARAMETERS" value="&quot;-ea:com.github.yuu1111.controllermod&quot; &quot;-Dmixin.debug.countInjections=true&quot; &quot;-Dmixin.debug.verbose=true&quot; &quot;-Dmixin.debug.export=true&quot; &quot;-Dfml.ignoreInvalidMinecraftCertificates=true&quot;" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/run" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

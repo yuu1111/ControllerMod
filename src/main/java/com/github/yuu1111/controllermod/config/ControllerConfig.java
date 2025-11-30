@@ -1,5 +1,7 @@
 package com.github.yuu1111.controllermod.config;
 
+import static com.github.yuu1111.controllermod.constants.Constants.MOD_ID;
+
 import com.gtnewhorizon.gtnhlib.config.Config;
 
 /**
@@ -11,7 +13,7 @@ import com.gtnewhorizon.gtnhlib.config.Config;
  *
  * @author yuu1111
  */
-@Config(modid = "controllermod", category = "controller")
+@Config(modid = MOD_ID, category = "controller")
 public class ControllerConfig {
 
     /**

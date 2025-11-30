@@ -1,4 +1,4 @@
-package com.github.yuu1111.controllermod;
+package com.github.yuu1111.controllermod.proxy;
 
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;

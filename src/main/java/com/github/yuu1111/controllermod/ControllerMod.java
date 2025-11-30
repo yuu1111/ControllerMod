@@ -1,5 +1,9 @@
 package com.github.yuu1111.controllermod;
 
+import static com.github.yuu1111.controllermod.constants.Constants.MOD_ID;
+import static com.github.yuu1111.controllermod.constants.Constants.MOD_NAME;
+
+import com.github.yuu1111.controllermod.proxy.CommonProxy;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -10,19 +14,18 @@ import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 
 @Mod(
-    modid = ControllerMod.MODID,
+    modid = MOD_ID,
     version = Tags.VERSION,
-    name = "ControllerMod",
+    name = MOD_NAME,
     acceptedMinecraftVersions = "[1.7.10]",
     guiFactory = "com.github.yuu1111.controllermod.gui.GuiFactory")
 public class ControllerMod {
 
-    public static final String MODID = "controllermod";
-    public static final Logger LOG = LogManager.getLogger(MODID);
+    public static final Logger LOG = LogManager.getLogger(MOD_ID);
 
     @SidedProxy(
-        clientSide = "com.github.yuu1111.controllermod.ClientProxy",
-        serverSide = "com.github.yuu1111.controllermod.CommonProxy")
+        clientSide = "com.github.yuu1111.controllermod.proxy.ClientProxy",
+        serverSide = "com.github.yuu1111.controllermod.proxy.CommonProxy")
     public static CommonProxy proxy;
 
     @Mod.EventHandler
